@@ -2,13 +2,18 @@ import ProjectDescription
 
 let project = Project(
     name: "MainFeature",
+    settings: .settings(
+        base: [
+            "IPHONEOS_DEPLOYMENT_TARGET": "15.0"
+        ]
+    ),
     targets: [
         .target(
             name: "MainExample",
             destinations: [.iPhone, .iPad],
             product: .app,
             bundleId: "MainExampleApp",
-            infoPlist: .extendingDefault(with: ["UILaunchScreen": ""]),
+            infoPlist: .file(path: "FeatureExample/Info.plist"),
             sources: ["FeatureExample/**"],
             dependencies: [
                 .target(name: "MainFeature")

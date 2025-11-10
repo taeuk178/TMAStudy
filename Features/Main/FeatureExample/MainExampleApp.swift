@@ -1,21 +1,20 @@
 //
-//  example.swift
+//  MainExampleApp.swift
+//  MainExample
+//
 
+import UIKit
 import MainFeature
 
-//@main
-//struct MainExampleApp: App {
-//	var body: some Scene {
-//		WindowGroup {
-//            NavigationStack {
-//                MainView(
-//                    mainViewModel: MainViewModel(
-//                        counterDataSource: MockCounterDataSource(),
-//                        maximDataSource: MockMaximDataSources()),
-//                    counterFactory: MockCounterFactory(),
-//                    maximFactory: MockMaximFactory()
-//                )
-//            }
-//		}
-//	}
-//}
+@main
+class MainExampleAppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = MainViewController()
+        window?.makeKeyAndVisible()
+        return true
+    }
+}
