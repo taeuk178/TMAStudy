@@ -1,41 +1,34 @@
 import ProjectDescription
 
 let project = Project(
-    name: "MainFeature",
-    settings: .settings(
-        base: [
-            "IPHONEOS_DEPLOYMENT_TARGET": "15.0"
-        ]
-    ),
+    name: "CounterFeature",
     targets: [
         .target(
-            name: "MainExample",
+            name: "CounterExample",
             destinations: [.iPhone],
             product: .app,
-            bundleId: "MainExampleApp",
+            bundleId: "CounterExampleApp",
             infoPlist: .file(path: "FeatureExample/Info.plist"),
             sources: ["FeatureExample/**"],
             dependencies: [
-                .target(name: "MainFeature")
+                .target(name: "CounterFeature")
             ]
         ),
         .target(
-            name: "MainInterface",
+            name: "CounterInterface",
             destinations: [.iPhone],
             product: .staticLibrary,
             bundleId: "",
             sources: ["FeatureInterface/**"]
         ),
         .target(
-            name: "MainFeature",
+            name: "CounterFeature",
             destinations: [.iPhone],
             product: .staticLibrary,
             bundleId: "",
             sources: ["Feature/**"],
             dependencies: [
-                .target(name: "MainInterface"),
-                .project(target: "CounterInterface",
-                         path: "../Counter"),
+                .target(name: "CounterInterface")
             ]
         )
     ]

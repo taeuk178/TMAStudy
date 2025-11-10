@@ -30,6 +30,10 @@ let project = Project(
                 .project(
                     target: "MainFeature",
                     path: "Features/Main",
+                ),
+                .project(
+                    target: "CounterFeature",
+                    path: "Features/Counter",
                 )
             ]
         )

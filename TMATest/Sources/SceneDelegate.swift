@@ -1,5 +1,6 @@
 import UIKit
 import MainFeature
+import CounterFeature
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -11,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         // 루트 뷰 컨트롤러 설정
-        let viewController = MainViewController()
+        let viewController = CounterViewController()
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
