@@ -5,7 +5,7 @@ final public class CounterViewController: UIViewController {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.text = "Hello, World!"
+        label.text = "22Hello, World22"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 24, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -17,10 +17,6 @@ final public class CounterViewController: UIViewController {
         
         view.backgroundColor = .blue
         setup()
-    }
-    
-    public func testCode() {
-        print("TEST CODE")
     }
     
     private func setup() {

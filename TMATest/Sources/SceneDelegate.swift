@@ -5,6 +5,7 @@ import CounterFeature
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var dependency = AppDependency.shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -12,8 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         // 루트 뷰 컨트롤러 설정
-        let viewController = CounterViewController()
-        window?.rootViewController = viewController
+        let mainFactoryImpl = MainFactoryImpl(external: self.dependency)
+        window?.rootViewController = mainFactoryImpl.makeViewController()
         window?.makeKeyAndVisible()
     }
 
