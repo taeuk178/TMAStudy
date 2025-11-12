@@ -7,6 +7,7 @@
 
 import UIKit
 import CounterInterface
+import WeatherInterface
 
 final public class MainViewController: UIViewController {
     
@@ -19,14 +20,22 @@ final public class MainViewController: UIViewController {
         return label
     }()
     
-    private let button: UIButton = {
+    private let counterButton: UIButton = {
         let label = UIButton(type: .custom)
-        label.setTitle("화면 테스트임", for: .normal)
+        label.setTitle("Counter화면", for: .normal)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let weatherButton: UIButton = {
+        let label = UIButton(type: .custom)
+        label.setTitle("Weather화면", for: .normal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let counterFactory: CounterFactory
+    private let weatherFactory: WeatherFactory
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +44,10 @@ final public class MainViewController: UIViewController {
         setup()
     }
     
-    init(counterFactory: CounterFactory) {
+    init(counterFactory: CounterFactory, weatherFactory: WeatherFactory) {
         
         self.counterFactory = counterFactory
+        self.weatherFactory = weatherFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -47,22 +57,33 @@ final public class MainViewController: UIViewController {
     
     private func setup() {
         view.addSubview(label)
-        view.addSubview(button)
+        view.addSubview(counterButton)
+        view.addSubview(weatherButton)
         
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 50),
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            counterButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 50),
+            counterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            weatherButton.topAnchor.constraint(equalTo: counterButton.bottomAnchor, constant: 50),
+            weatherButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
         
-        button.addTarget(self, action: #selector(setButtonAction(_:)), for: .touchUpInside)
+        counterButton.addTarget(self, action: #selector(setButtonAction(_:)), for: .touchUpInside)
+        weatherButton.addTarget(self, action: #selector(setButton(_:)), for: .touchUpInside)
     }
     
     @objc
     private func setButtonAction(_ sender: UIButton) {
         let counterViewController = counterFactory.makeViewController()
         self.present(counterViewController, animated: true)
+    }
+    
+    @objc
+    private func setButton(_ sender: UIButton) {
+        let weatherViewController = weatherFactory.makeViewController()
+        self.present(weatherViewController, animated: true)
     }
 }

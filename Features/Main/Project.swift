@@ -29,8 +29,14 @@ let project = Project(
             sources: ["Feature/**"],
             dependencies: [
                 .target(name: "MainInterface"),
-                .project(target: "CounterInterface",
-                         path: "../Counter"),
+                .project(
+                    target: "CounterInterface",
+                    path: "../Counter"
+                ),
+                .project(
+                    target: "WeatherInterface",
+                    path: "../Weather"
+                ),
             ]
         )
     ]

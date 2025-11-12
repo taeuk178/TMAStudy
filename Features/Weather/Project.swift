@@ -1,34 +1,35 @@
 import ProjectDescription
 
 let project = Project(
-    name: "{{ name }}Feature",
+    name: "WeatherFeature",
     targets: [
         .target(
-            name: "{{ name }}Example",
+            name: "WeatherExample",
             destinations: [.iPhone],
             product: .app,
-            bundleId: "{{ name }}ExampleApp",
-            infoPlist: .file(path: "FeatureExample/Info.plist"),
+            bundleId: "WeatherExampleApp",
+//            infoPlist: .file(path: "FeatureExample/Info.plist"),
+            infoPlist: .default,
             sources: ["FeatureExample/**"],
             dependencies: [
-                .target(name: "{{ name }}Feature")
+                .target(name: "WeatherFeature")
             ]
         ),
         .target(
-            name: "{{ name }}Interface",
+            name: "WeatherInterface",
             destinations: [.iPhone],
             product: .staticLibrary,
             bundleId: "",
             sources: ["FeatureInterface/**"]
         ),
         .target(
-            name: "{{ name }}Feature",
+            name: "WeatherFeature",
             destinations: [.iPhone],
             product: .staticLibrary,
             bundleId: "",
             sources: ["Feature/**"],
             dependencies: [
-                .target(name: "{{ name }}Interface")
+                .target(name: "WeatherInterface")
             ]
         )
     ]

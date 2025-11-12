@@ -16,7 +16,11 @@ let template = Template(
     ],
     items: [
         .string(
-            path: "Features/\(nameAttribute)/Feature/\(nameAttribute)Feature.swift",
+            path: "Features/\(nameAttribute)/Feature/\(nameAttribute)ViewController.swift",
+            contents: "//My template contents of name \(nameAttribute)"
+        ),
+        .string(
+            path: "Features/\(nameAttribute)/Feature/\(nameAttribute)FactoryImpl.swift",
             contents: "//My template contents of name \(nameAttribute)"
         ),
         .file(

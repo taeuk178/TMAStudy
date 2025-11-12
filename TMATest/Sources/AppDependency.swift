@@ -11,12 +11,18 @@ import MainFeature
 import MainInterface
 import CounterFeature
 import CounterInterface
+import WeatherFeature
+import WeatherInterface
 
-final class AppDependency: MainFactoryDependency, CounterFactoryDependency {
+final class AppDependency: MainFactoryDependency, CounterFactoryDependency, WeatherFactoryDependency {
     
     static let shared = AppDependency()
     
     private init() {}
+
+    var weatherFactory: WeatherFactory {
+        return WeatherFactoryImpl(external: self)
+    }
     
     var countFactory: CounterFactory {
         return CounterFactoryImpl(external: self)
