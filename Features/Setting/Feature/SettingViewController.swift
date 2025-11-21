@@ -1,18 +1,28 @@
 //My template contents of name Setting
 
 import UIKit
-
+import TMAShared
 import Then
 import SnapKit
 
 final public class SettingViewController: UIViewController {
     
+    private let navigator: Navigator
     private let tableView = UITableView()
     private let tableData: [String] = [
         "첫 번째 화면",
         "두 번째 화면",
         "세 번째 화면",
     ]
+    
+    public init(navigator: Navigator) {
+        self.navigator = navigator
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +64,16 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
+        switch indexPath.row {
+        case 0:
+            navigator.navigate(to: .counter, animated: true)
+        case 1:
+            navigator.navigate(to: .weather, animated: true)
+        case 2:
+            navigator.navigate(to: .setting, animated: true)
+        default: break
+        }
     }
 }
 

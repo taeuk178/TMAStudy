@@ -4,10 +4,6 @@ import UIKit
 import WeatherInterface
 import TMAShared
 
-public protocol WeatherFactoryDependency {
-
-}
-
 public class WeatherFactoryImpl: Factory<WeatherFactoryDependency>, WeatherFactory {
 
     public func makeViewController() -> UIViewController {

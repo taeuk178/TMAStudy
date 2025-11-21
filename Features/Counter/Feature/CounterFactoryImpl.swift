@@ -9,10 +9,6 @@ import UIKit
 import CounterInterface
 import TMAShared
 
-public protocol CounterFactoryDependency {
-    
-}
-
 public class CounterFactoryImpl: Factory<CounterFactoryDependency>, CounterFactory {
     
     public func makeViewController() -> UIViewController {

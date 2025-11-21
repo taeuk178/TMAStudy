@@ -4,13 +4,13 @@ import UIKit
 import SettingInterface
 import TMAShared
 
-public protocol SettingFactoryDependency {
+public class SettingFactoryImpl: Factory<SettingFactoryDependency>,
+  SettingFactory {
 
-}
-
-public class SettingFactoryImpl: Factory<SettingFactoryDependency>, SettingFactory {
-
-    public func makeViewController() -> UIViewController {
-        return SettingViewController()
-    }
-}
+      public func makeViewController() -> UIViewController {
+          guard let navigator = external.navigator else {
+              fatalError("Navigator가 초기화되지 않았습니다.")
+          }
+          return SettingViewController(navigator: navigator)
+      }
+  }

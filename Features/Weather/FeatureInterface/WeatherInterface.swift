@@ -2,6 +2,10 @@
 
 import UIKit
 
+public protocol WeatherFactoryDependency {
+
+}
+
 // MARK: - Models
 public struct WeatherData: Codable, Equatable {
     public let latitude: Double

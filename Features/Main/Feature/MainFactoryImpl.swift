@@ -14,7 +14,7 @@ import SettingInterface
 import TMAShared
 
 public protocol MainFactoryDependency {
-    var countFactory: CounterFactory { get }
+    var counterFactory: CounterFactory { get }
     var weatherFactory: WeatherFactory { get }
     var settingFactory: SettingFactory { get }
 }
@@ -23,7 +23,7 @@ final public class MainFactoryImpl: Factory<MainFactoryDependency>, MainFactory 
     
     public func makeViewController() -> UIViewController {
         return MainViewController(
-            counterFactory: external.countFactory,
+            counterFactory: external.counterFactory,
             weatherFactory: external.weatherFactory,
             settingFactory: external.settingFactory
         )

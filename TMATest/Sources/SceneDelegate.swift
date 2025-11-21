@@ -2,6 +2,8 @@ import UIKit
 import MainFeature
 import CounterFeature
 
+import TMAShared
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -14,8 +16,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // 루트 뷰 컨트롤러 설정
         let mainFactoryImpl = MainFactoryImpl(external: self.dependency)
-        window?.rootViewController = mainFactoryImpl.makeViewController()
+        let mainViewController = mainFactoryImpl.makeViewController()
+        window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
+        
+        // Navigator 설정
+        if let tabBarController = mainViewController as? UITabBarController {
+            dependency.setNavigator(with: tabBarController)
+        }
+        
+        // DeepLink 처리
+        if let urlContext = connectionOptions.urlContexts.first {
+            _ = dependency.navigator?.handleDeepLink(urlContext.url)
+        }
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        _ = dependency.navigator?.handleDeepLink(url)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
