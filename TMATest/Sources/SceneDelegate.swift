@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // 루트 뷰 컨트롤러 설정
         let mainFactoryImpl = MainFactoryImpl(external: self.dependency)
-        window?.rootViewController = UINavigationController(rootViewController: mainFactoryImpl.makeViewController())
+        window?.rootViewController = mainFactoryImpl.makeViewController()
         window?.makeKeyAndVisible()
     }
 

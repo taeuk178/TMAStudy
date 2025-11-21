@@ -2,16 +2,17 @@
 
 import UIKit
 
+import Then
+import SnapKit
+
 final public class SettingViewController: UIViewController {
     
-    private let label: UILabel = {
-        let label = UILabel()
-        label.text = "setting"
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 24, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let tableView = UITableView()
+    private let tableData: [String] = [
+        "첫 번째 화면",
+        "두 번째 화면",
+        "세 번째 화면",
+    ]
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,22 +20,54 @@ final public class SettingViewController: UIViewController {
         view.backgroundColor = .white
         setup()
     }
-    
-//    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-//        
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
+}
+
+extension SettingViewController {
+ 
     private func setup() {
-        view.addSubview(label)
         
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        tableView.do {
+            $0.delegate = self
+            $0.dataSource = self
+            $0.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+            $0.backgroundColor = .white
+            self.view.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        }
+    }
+}
+
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableData.count
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
+        cell.textLabel?.text = tableData[indexPath.row]
+        return cell
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+}
+
+final class TableViewCell: UITableViewCell {
+    
+    static let identifier: String = "TableViewCell"
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
