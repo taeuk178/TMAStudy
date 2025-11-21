@@ -1,4 +1,5 @@
 generate:
+	mise x -- tuist install
 	mise x -- tuist generate --no-open
 	xed .
 

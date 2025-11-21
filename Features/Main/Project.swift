@@ -1,4 +1,5 @@
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(
     name: "MainFeature",
@@ -28,6 +29,15 @@ let project = Project(
             bundleId: "",
             sources: ["Feature/**"],
             dependencies: [
+                .external(name: "SnapKit", condition: .none),
+                .external(name: "Then", condition: .none),
+                .external(name: "ReactorKit", condition: .none),
+                .external(name: "RxSwift", condition: .none),
+                .external(name: "RxCocoa", condition: .none),
+                .project(
+                    target: "NetworkKit",
+                    path: "../../Modules/NetworkKit"
+                ),
                 .target(name: "MainInterface"),
                 .project(
                     target: "CounterInterface",
