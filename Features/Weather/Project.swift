@@ -8,8 +8,8 @@ let project = Project(
             name: "WeatherExample",
             destinations: [.iPhone],
             product: .app,
-            bundleId: "WeatherExampleApp",
-            infoPlist: .default,
+            bundleId: "io.tuist.TMATest",
+            infoPlist: .file(path: "FeatureExample/Info.plist"),
             sources: ["FeatureExample/**"],
             dependencies: [
                 .target(name: "WeatherFeature")

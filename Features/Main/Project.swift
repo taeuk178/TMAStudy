@@ -8,8 +8,8 @@ let project = Project(
             name: "MainExample",
             destinations: [.iPhone],
             product: .app,
-            bundleId: "MainExampleApp",
-            infoPlist: .default,
+            bundleId: "io.tuist.TMATest",
+            infoPlist: .file(path: "FeatureExample/Info.plist"),
             sources: ["FeatureExample/**"],
             dependencies: [
                 .target(name: "MainFeature")
@@ -28,8 +28,7 @@ let project = Project(
             product: .staticLibrary,
             bundleId: "",
             sources: ["Feature/**"],
-            dependencies: .defaultLibraries + [
-                .library(.NetworkKit), 
+            dependencies: .defaultLibraries + [ 
                 .target(name: "MainInterface"),
                 .project(
                     target: "CounterInterface",
