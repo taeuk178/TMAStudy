@@ -16,6 +16,8 @@ public protocol CounterFactoryDependency {
 public class CounterFactoryImpl: Factory<CounterFactoryDependency>, CounterFactory {
     
     public func makeViewController() -> UIViewController {
-        return CounterViewController()
+        let counterViewController = CounterViewController()
+        counterViewController.reactor = CounterReactor()
+        return counterViewController
     }
 }
