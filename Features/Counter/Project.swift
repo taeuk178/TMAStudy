@@ -8,7 +8,7 @@ let project = Project(
             destinations: [.iPhone],
             product: .app,
             bundleId: "CounterExampleApp",
-            infoPlist: .file(path: "FeatureExample/Info.plist"),
+            infoPlist: .default,
             sources: ["FeatureExample/**"],
             dependencies: [
                 .target(name: "CounterFeature")

@@ -39,6 +39,10 @@ let project = Project(
                 .project(
                     target: "WeatherFeature",
                     path: "Features/Weather",
+                ),
+                .project(
+                    target: "SettingFeature",
+                    path: "Features/Setting",
                 )
             ]
         )

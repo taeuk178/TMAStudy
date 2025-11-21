@@ -10,10 +10,12 @@ import UIKit
 import CounterInterface
 import MainInterface
 import WeatherInterface
+import SettingInterface
 
 public protocol MainFactoryDependency {
     var countFactory: CounterFactory { get }
     var weatherFactory: WeatherFactory { get }
+    var settingFactory: SettingFactory { get }
 }
 
 final public class MainFactoryImpl: Factory<MainFactoryDependency>, MainFactory {
@@ -21,7 +23,8 @@ final public class MainFactoryImpl: Factory<MainFactoryDependency>, MainFactory 
     public func makeViewController() -> UIViewController {
         return MainViewController(
             counterFactory: external.countFactory,
-            weatherFactory: external.weatherFactory
+            weatherFactory: external.weatherFactory,
+            settingFactory: external.settingFactory
         )
     }
 }

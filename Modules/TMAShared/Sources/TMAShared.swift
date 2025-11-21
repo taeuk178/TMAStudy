@@ -1,12 +1,11 @@
 //
-//  NetworkKit.swift
+//  TMAShared.swift
 //
 
 import Foundation
-import Moya
 
-public final class NetworkKit {
-    public static let shared = NetworkKit()
+public final class TMAShared {
+    public static let shared = TMAShared()
 
     private init() {}
 

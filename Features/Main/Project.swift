@@ -9,7 +9,7 @@ let project = Project(
             destinations: [.iPhone],
             product: .app,
             bundleId: "MainExampleApp",
-            infoPlist: .file(path: "FeatureExample/Info.plist"),
+            infoPlist: .default,
             sources: ["FeatureExample/**"],
             dependencies: [
                 .target(name: "MainFeature")
@@ -38,6 +38,10 @@ let project = Project(
                     target: "NetworkKit",
                     path: "../../Modules/NetworkKit"
                 ),
+                .project(
+                    target: "TMAShared",
+                    path: "../../Modules/TMAShared"
+                ),
                 .target(name: "MainInterface"),
                 .project(
                     target: "CounterInterface",
@@ -46,6 +50,10 @@ let project = Project(
                 .project(
                     target: "WeatherInterface",
                     path: "../Weather"
+                ),
+                .project(
+                    target: "SettingInterface",
+                    path: "../Setting"
                 ),
             ]
         )

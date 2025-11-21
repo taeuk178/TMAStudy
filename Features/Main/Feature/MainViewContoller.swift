@@ -8,48 +8,32 @@
 import UIKit
 import CounterInterface
 import WeatherInterface
+import SettingInterface
 import Then
 import SnapKit
 
-final public class MainViewController: UIViewController {
-    
-    private let label: UILabel = {
-        let label = UILabel()
-        label.text = "Hello, World!"
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 24, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let counterButton: UIButton = {
-        let label = UIButton(type: .custom)
-        label.setTitle("Counter화면", for: .normal)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let weatherButton: UIButton = {
-        let label = UIButton(type: .custom)
-        label.setTitle("Weather화면", for: .normal)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+final public class MainViewController: UITabBarController {
     
     private let counterFactory: CounterFactory
     private let weatherFactory: WeatherFactory
+    private let settingFactory: SettingFactory
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .red
         setup()
     }
     
-    init(counterFactory: CounterFactory, weatherFactory: WeatherFactory) {
+    init(
+        counterFactory: CounterFactory,
+        weatherFactory: WeatherFactory,
+        settingFactory: SettingFactory
+    ) {
         
         self.counterFactory = counterFactory
         self.weatherFactory = weatherFactory
+        self.settingFactory = settingFactory
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,34 +42,50 @@ final public class MainViewController: UIViewController {
     }
     
     private func setup() {
-        view.addSubview(label)
-        view.addSubview(counterButton)
-        view.addSubview(weatherButton)
+
+        let counterViewController = templateNavigationController(
+            title: "카운트",
+            unselectedImage: UIImage(systemName: "number.circle"),
+            selectedImage: UIImage(systemName: "number.circle.fill"),
+            rootViewController: counterFactory.makeViewController(),
+            tag: 0
+        )
+
+        let weatherViewController = templateNavigationController(
+            title: "날씨",
+            unselectedImage: UIImage(systemName: "cloud.sun"),
+            selectedImage: UIImage(systemName: "cloud.sun.fill"),
+            rootViewController: weatherFactory.makeViewController(),
+            tag: 1
+        )
         
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            counterButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 50),
-            counterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            weatherButton.topAnchor.constraint(equalTo: counterButton.bottomAnchor, constant: 50),
-            weatherButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        ])
+        let settingViewController = templateNavigationController(
+            title: "설정",
+            unselectedImage: UIImage(systemName: "gearshape"),
+            selectedImage: UIImage(systemName: "gearshape.fill"),
+            rootViewController: settingFactory.makeViewController(),
+            tag: 2
+        )
         
-        counterButton.addTarget(self, action: #selector(setButtonAction(_:)), for: .touchUpInside)
-        weatherButton.addTarget(self, action: #selector(setButton(_:)), for: .touchUpInside)
+        viewControllers = [
+            counterViewController,
+            weatherViewController,
+            settingViewController
+        ]
     }
     
-    @objc
-    private func setButtonAction(_ sender: UIButton) {
-        let counterViewController = counterFactory.makeViewController()
-        self.present(counterViewController, animated: true)
-    }
-    
-    @objc
-    private func setButton(_ sender: UIButton) {
-        let weatherViewController = weatherFactory.makeViewController()
-        self.present(weatherViewController, animated: true)
+    private func templateNavigationController(
+        title: String,
+        unselectedImage: UIImage?,
+        selectedImage: UIImage?,
+        rootViewController: UIViewController,
+        tag: Int
+    ) -> UINavigationController {
+        let nav = UINavigationController(rootViewController: rootViewController)
+        nav.tabBarItem.title = title
+        nav.tabBarItem.image = unselectedImage
+        nav.tabBarItem.selectedImage = selectedImage
+        nav.navigationBar.tag = tag
+        return nav
     }
 }
