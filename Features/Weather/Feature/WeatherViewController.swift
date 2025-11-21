@@ -8,25 +8,9 @@ import ReactorKit
 import RxCocoa
 
 final public class WeatherViewController: UIViewController, View {
-    
-    private let label: UILabel = {
-        let label = UILabel()
-        label.text = "Hello, Weather!"
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 24, weight: .medium)
-        label.numberOfLines = 0
-        return label
-    }()
-
-    private let button: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("API 요청", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.cornerRadius = 8
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.red.cgColor
-        return button
-    }()
+        
+    private let label = UILabel()
+    private let button = UIButton(type: .custom)
 
     public init() {
         
@@ -45,24 +29,6 @@ final public class WeatherViewController: UIViewController, View {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    private func setup() {
-        
-        view.addSubview(label)
-        view.addSubview(button)
-        
-        label.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-        
-        button.snp.makeConstraints { make in
-            make.top.equalTo(label.snp.bottom).offset(50)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(100)
-            make.height.equalTo(40)
-        }
-    }
     
     public func bind(reactor: WeatherReactor) {
         
@@ -77,5 +43,38 @@ final public class WeatherViewController: UIViewController, View {
             .subscribe(with: self) { owner, model in
                 owner.label.text = "lat: \(model.latitude), lon: \(model.longitude)"
             }.disposed(by: disposeBag)
+    }
+}
+
+extension WeatherViewController {
+ 
+    private func setup() {
+        
+        label.do {
+            $0.text = "Hello, Weather!"
+            $0.textAlignment = .center
+            $0.font = .systemFont(ofSize: 24, weight: .medium)
+            $0.numberOfLines = 0
+            self.view.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.centerY.equalToSuperview()
+            }
+        }
+        
+        button.do {
+            $0.setTitle("API 요청", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.layer.cornerRadius = 8
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.red.cgColor
+            self.view.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.equalTo(label.snp.bottom).offset(50)
+                make.centerX.equalToSuperview()
+                make.width.equalTo(100)
+                make.height.equalTo(40)
+            }
+        }
     }
 }
