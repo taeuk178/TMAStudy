@@ -2,21 +2,22 @@
 
 import UIKit
 import TMAShared
+import SettingInterface
 import Then
 import SnapKit
 
 final public class SettingViewController: UIViewController {
-    
-    private let navigator: Navigator
+
+    private var dependency: SettingFactoryDependency?
     private let tableView = UITableView()
     private let tableData: [String] = [
         "첫 번째 화면",
         "두 번째 화면",
         "세 번째 화면",
     ]
-    
-    public init(navigator: Navigator) {
-        self.navigator = navigator
+
+    public init(dependency: SettingFactoryDependency?) {
+        self.dependency = dependency
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,11 +68,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
-            navigator.navigate(to: .counter, animated: true)
+            // Counter 화면은 push
+            dependency?.navigator?.navigate(to: .counter, animated: true, presentationStyle: .present)
         case 1:
-            navigator.navigate(to: .weather, animated: true)
+            // Weather 화면은 present
+            dependency?.navigator?.navigate(to: .weather, animated: true, presentationStyle: .present)
         case 2:
-            navigator.navigate(to: .setting, animated: true)
+            // Setting 화면은 push
+            dependency?.navigator?.navigate(to: .setting, animated: true, presentationStyle: .push)
         default: break
         }
     }

@@ -17,13 +17,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 루트 뷰 컨트롤러 설정
         let mainFactoryImpl = MainFactoryImpl(external: self.dependency)
         let mainViewController = mainFactoryImpl.makeViewController()
-        window?.rootViewController = mainViewController
-        window?.makeKeyAndVisible()
-        
-        // Navigator 설정
+
+        // Navigator 설정 (makeKeyAndVisible 이전에 호출)
         if let tabBarController = mainViewController as? UITabBarController {
             dependency.setNavigator(with: tabBarController)
         }
+
+        window?.rootViewController = mainViewController
+        window?.makeKeyAndVisible()
         
         // DeepLink 처리
         if let urlContext = connectionOptions.urlContexts.first {

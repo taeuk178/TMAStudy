@@ -31,13 +31,13 @@ final class AppNavigator: Navigator {
         self.settingFactory = settingFactory
     }
     
-    func navigate(to route: Route, animated: Bool) {
-        
+    func navigate(to route: Route, animated: Bool, presentationStyle: PresentationStyle = .push) {
+
         guard let tabBarController = tabBarController else { return }
         tabBarController.selectedIndex = route.tabIndex
-        
+
         guard let navigationController = tabBarController.selectedViewController as? UINavigationController else { return }
-        
+
         let viewController: UIViewController
         switch route {
         case .counter:
@@ -47,8 +47,15 @@ final class AppNavigator: Navigator {
         case .setting:
             viewController = settingFactory.makeViewController()
         }
-        
-        navigationController.pushViewController(viewController, animated: animated)
+
+        // presentationStyle에 따라 분기 처리
+        switch presentationStyle {
+        case .push:
+            navigationController.pushViewController(viewController, animated: animated)
+        case .present:
+            viewController.modalPresentationStyle = .fullScreen
+            navigationController.present(viewController, animated: animated)
+        }
     }
     
     func handleDeepLink(_ url: URL) -> Bool {
@@ -68,7 +75,7 @@ final class AppNavigator: Navigator {
         }
         
         guard let route else { return false }
-        navigate(to: route, animated: true)
+        navigate(to: route, animated: true, presentationStyle: .push)
         return true
     }
     
@@ -90,7 +97,7 @@ final class AppNavigator: Navigator {
         }
         
         guard let destination = route else { return false }
-        navigate(to: destination, animated: true)
+        navigate(to: destination, animated: true, presentationStyle: .push)
         return true
     }
 }

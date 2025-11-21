@@ -17,12 +17,18 @@ import SettingFeature
 import SettingInterface
 
 final class AppDependency: MainFactoryDependency, CounterFactoryDependency, WeatherFactoryDependency, SettingFactoryDependency {
-    
+
     static let shared = AppDependency()
     private(set) var navigator: Navigator?
-    
+
+    // Factory들을 stored property로 변경 (lazy var로 한 번만 생성)
+    lazy var mainFactory: MainFactory = MainFactoryImpl(external: self)
+    lazy var weatherFactory: WeatherFactory = WeatherFactoryImpl(external: self)
+    lazy var counterFactory: CounterFactory = CounterFactoryImpl(external: self)
+    lazy var settingFactory: SettingFactory = SettingFactoryImpl(external: self)
+
     private init() {}
-    
+
     func setNavigator(with tabBarController: UITabBarController) {
         self.navigator = AppNavigator(
             tabBarController: tabBarController,
@@ -30,21 +36,5 @@ final class AppDependency: MainFactoryDependency, CounterFactoryDependency, Weat
             weatherFactory: weatherFactory,
             settingFactory: settingFactory
         )
-    }
-
-    var mainFactory: MainFactory {
-        return MainFactoryImpl(external: self)
-    }
-    
-    var weatherFactory: WeatherFactory {
-        return WeatherFactoryImpl(external: self)
-    }
-    
-    var counterFactory: CounterFactory {
-        return CounterFactoryImpl(external: self)
-    }
-    
-    var settingFactory: SettingFactory {
-        return SettingFactoryImpl(external: self)
     }
 }
