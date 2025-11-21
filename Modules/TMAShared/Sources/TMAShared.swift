@@ -4,12 +4,10 @@
 
 import Foundation
 
-public final class TMAShared {
-    public static let shared = TMAShared()
+open class Factory<Dependency> {
+    public let external: Dependency
 
-    private init() {}
-
-    public func configure() {
-        // NetworkKit configuration
+    public init(external: Dependency) {
+        self.external = external
     }
 }

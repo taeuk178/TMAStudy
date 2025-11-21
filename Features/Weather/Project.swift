@@ -1,4 +1,5 @@
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(
     name: "WeatherFeature",
@@ -27,7 +28,9 @@ let project = Project(
             product: .staticLibrary,
             bundleId: "",
             sources: ["Feature/**"],
-            dependencies: [
+            dependencies: .defaultLibraries + [
+                .library(.NetworkKit),
+                .library(.TMAShared),
                 .target(name: "WeatherInterface")
             ]
         )

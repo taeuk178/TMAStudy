@@ -2,37 +2,43 @@
 
 import UIKit
 import WeatherInterface
+import Then
+import SnapKit
+import ReactorKit
+import RxCocoa
 
-final public class WeatherViewController: UIViewController {
-
-    private let fetchWeatherUseCase: FetchWeatherUseCase
-
+final public class WeatherViewController: UIViewController, View {
+    
     private let label: UILabel = {
         let label = UILabel()
         label.text = "Hello, Weather!"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 24, weight: .medium)
         label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let button: UIButton = {
-        let label = UIButton(type: .custom)
-        label.setTitle("API 요청", for: .normal)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        let button = UIButton(type: .custom)
+        button.setTitle("API 요청", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 8
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.red.cgColor
+        return button
     }()
 
-    public init(fetchWeatherUseCase: FetchWeatherUseCase) {
-        self.fetchWeatherUseCase = fetchWeatherUseCase
+    public init() {
+        
         super.init(nibName: nil, bundle: nil)
     }
+    
+    public var disposeBag: DisposeBag = DisposeBag()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .green
+        view.backgroundColor = .white
         setup()
     }
 
@@ -41,37 +47,35 @@ final public class WeatherViewController: UIViewController {
     }
 
     private func setup() {
+        
         view.addSubview(label)
         view.addSubview(button)
-
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 50),
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        ])
-
-        button.addTarget(self, action: #selector(setButtonAction(_:)), for: .touchUpInside)
-    }
-
-    @objc
-    private func setButtonAction(_ sender: UIButton) {
-        Task {
-            do {
-                let weatherData = try await fetchWeatherUseCase.execute()
-                await MainActor.run {
-                    label.text = """
-                    Latitude: \(weatherData.latitude)
-                    Longitude: \(weatherData.longitude)
-                    Timezone: \(weatherData.timezone)
-                    """
-                }
-            } catch {
-                await MainActor.run {
-                    label.text = "Error: \(error.localizedDescription)"
-                }
-            }
+        
+        label.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
+        
+        button.snp.makeConstraints { make in
+            make.top.equalTo(label.snp.bottom).offset(50)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(100)
+            make.height.equalTo(40)
+        }
+    }
+    
+    public func bind(reactor: WeatherReactor) {
+        
+        button.rx.tap
+            .subscribe(with: self) { owner, _ in
+                owner.reactor?.action.onNext(.fetchWeatherData(lat: 35.12, lon: 127.0))
+            }.disposed(by: disposeBag)
+        
+        reactor.state.compactMap(\.weatherData)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(with: self) { owner, model in
+                owner.label.text = "lat: \(model.latitude), lon: \(model.longitude)"
+            }.disposed(by: disposeBag)
     }
 }

@@ -11,6 +11,7 @@ import CounterInterface
 import MainInterface
 import WeatherInterface
 import SettingInterface
+import TMAShared
 
 public protocol MainFactoryDependency {
     var countFactory: CounterFactory { get }
@@ -26,15 +27,5 @@ final public class MainFactoryImpl: Factory<MainFactoryDependency>, MainFactory 
             weatherFactory: external.weatherFactory,
             settingFactory: external.settingFactory
         )
-    }
-}
-
-
-
-open class Factory<Dependency> {
-    public let external: Dependency
-
-    public init(external: Dependency) {
-        self.external = external
     }
 }

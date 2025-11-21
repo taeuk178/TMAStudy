@@ -3,7 +3,7 @@
 import UIKit
 
 // MARK: - Models
-public struct WeatherData {
+public struct WeatherData: Codable, Equatable {
     public let latitude: Double
     public let longitude: Double
     public let timezone: String
@@ -17,7 +17,7 @@ public struct WeatherData {
 
 // MARK: - UseCase
 public protocol FetchWeatherUseCase {
-    func execute() async throws -> WeatherData
+    func execute(lat: Double, lon: Double) async throws -> WeatherData
 }
 
 // MARK: - Factory

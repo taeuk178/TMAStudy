@@ -2,6 +2,7 @@
 
 import UIKit
 import WeatherInterface
+import TMAShared
 
 public protocol WeatherFactoryDependency {
 
@@ -11,15 +12,9 @@ public class WeatherFactoryImpl: Factory<WeatherFactoryDependency>, WeatherFacto
 
     public func makeViewController() -> UIViewController {
         let fetchWeatherUseCase = FetchWeatherUseCaseImpl()
-        return WeatherViewController(fetchWeatherUseCase: fetchWeatherUseCase)
-    }
-}
-
-
-open class Factory<Dependency> {
-    public let external: Dependency
-
-    public init(external: Dependency) {
-        self.external = external
+        let weatherReactor = WeatherReactor(fetchWeatherUseCase: fetchWeatherUseCase)
+        let weatherViewController = WeatherViewController()
+        weatherViewController.reactor = weatherReactor
+        return weatherViewController
     }
 }

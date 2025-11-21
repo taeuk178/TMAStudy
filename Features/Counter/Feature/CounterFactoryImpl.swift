@@ -7,6 +7,7 @@
 
 import UIKit
 import CounterInterface
+import TMAShared
 
 public protocol CounterFactoryDependency {
     
@@ -16,14 +17,5 @@ public class CounterFactoryImpl: Factory<CounterFactoryDependency>, CounterFacto
     
     public func makeViewController() -> UIViewController {
         return CounterViewController()
-    }
-}
-
-
-open class Factory<Dependency> {
-    public let external: Dependency
-
-    public init(external: Dependency) {
-        self.external = external
     }
 }

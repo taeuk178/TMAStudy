@@ -28,20 +28,8 @@ let project = Project(
             product: .staticLibrary,
             bundleId: "",
             sources: ["Feature/**"],
-            dependencies: [
-                .external(name: "SnapKit", condition: .none),
-                .external(name: "Then", condition: .none),
-                .external(name: "ReactorKit", condition: .none),
-                .external(name: "RxSwift", condition: .none),
-                .external(name: "RxCocoa", condition: .none),
-                .project(
-                    target: "NetworkKit",
-                    path: "../../Modules/NetworkKit"
-                ),
-                .project(
-                    target: "TMAShared",
-                    path: "../../Modules/TMAShared"
-                ),
+            dependencies: .defaultLibraries + [
+                .library(.NetworkKit), 
                 .target(name: "MainInterface"),
                 .project(
                     target: "CounterInterface",

@@ -7,34 +7,22 @@
 
 import Foundation
 import WeatherInterface
+import NetworkKit
 
 final class FetchWeatherUseCaseImpl: FetchWeatherUseCase {
 
-    func execute() async throws -> WeatherData {
-        // API 호출
-        let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=37.57&longitude=126.98")!
-        let urlRequest = URLRequest(url: url)
-
-        let (data, _) = try await URLSession.shared.data(for: urlRequest)
-
-        // JSON 파싱
-        let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-
-        // 디버깅용 Pretty Print
-        let prettyData = try JSONSerialization.data(withJSONObject: json ?? [:], options: .prettyPrinted)
-        if let prettyString = String(data: prettyData, encoding: .utf8) {
-            print("Pretty JSON:\n\(prettyString)")
+    private let weatherProvider = CustomProvider<WeatherAPI>()
+    
+    func execute(lat: Double, lon: Double) async throws -> WeatherData {
+        do {
+            let weatherData: WeatherData = try await weatherProvider.requestMethod(.getWeatherData(lat: String(lat), lon: String(lon)))
+            return weatherData
+        } catch {
+            return WeatherData(
+                latitude: 0.0,
+                longitude: 0.0,
+                timezone: ""
+            )
         }
-
-        // WeatherData 생성
-        let latitude = json?["latitude"] as? Double ?? 0.0
-        let longitude = json?["longitude"] as? Double ?? 0.0
-        let timezone = json?["timezone"] as? String ?? ""
-
-        return WeatherData(
-            latitude: latitude,
-            longitude: longitude,
-            timezone: timezone
-        )
     }
 }

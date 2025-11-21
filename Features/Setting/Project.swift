@@ -1,4 +1,5 @@
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(
     name: "SettingFeature",
@@ -27,7 +28,8 @@ let project = Project(
             product: .staticLibrary,
             bundleId: "",
             sources: ["Feature/**"],
-            dependencies: [
+            dependencies: .defaultLibraries + [
+                .library(.TMAShared),
                 .target(name: "SettingInterface")
             ]
         )
