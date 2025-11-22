@@ -6,16 +6,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var dependency = AppDependency.shared
+    var appCoordinator: AppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
 
-        // 루트 뷰 컨트롤러 설정
-        let mainFactoryImpl = MainFactoryImpl(external: self.dependency)
-        window?.rootViewController = mainFactoryImpl.makeViewController()
-        window?.makeKeyAndVisible()
+        // AppCoordinator 시작
+        let coordinator = AppCoordinator(window: window!, dependency: dependency)
+        coordinator.start()
+        self.appCoordinator = coordinator
+
+        // 딥링크 처리 (앱 실행 시)
+        if let urlContext = connectionOptions.urlContexts.first {
+            coordinator.handle(url: urlContext.url)
+        }
+    }
+
+    // MARK: - DeepLink 처리
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        appCoordinator?.handle(url: url)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

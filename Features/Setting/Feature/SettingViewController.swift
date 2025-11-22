@@ -1,23 +1,27 @@
 //My template contents of name Setting
 
 import UIKit
-
+import SettingInterface
+import TMAShared
 import Then
 import SnapKit
 
 final public class SettingViewController: UIViewController {
-    
+
     private let tableView = UITableView()
     private let tableData: [String] = [
         "첫 번째 화면",
         "두 번째 화면",
         "세 번째 화면",
     ]
-    
+
+    weak var coordinator: SettingCoordinator?
+
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .white
+        title = "설정"
         setup()
     }
 }
@@ -54,7 +58,18 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        switch indexPath.row {
+        case 0: // 첫 번째 화면 - Counter로 이동
+            coordinator?.delegate?.settingCoordinator(coordinator!, didRequestRoute: .counterMain)
+        case 1: // 두 번째 화면
+            coordinator?.showAccount()
+        case 2: // 세 번째 화면
+            coordinator?.showProfile()
+        default:
+            break
+        }
     }
 }
 

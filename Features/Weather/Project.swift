@@ -20,7 +20,10 @@ let project = Project(
             destinations: [.iPhone],
             product: .staticLibrary,
             bundleId: "",
-            sources: ["FeatureInterface/**"]
+            sources: ["FeatureInterface/**"],
+            dependencies: [
+                .library(.TMAShared)
+            ]
         ),
         .target(
             name: "WeatherFeature",
