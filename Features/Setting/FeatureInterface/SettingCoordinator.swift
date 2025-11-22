@@ -8,8 +8,8 @@ import TMAShared
 
 /// SettingCoordinator의 이벤트를 상위 Coordinator에게 전달
 public protocol SettingCoordinatorDelegate: AnyObject {
-    /// 다른 탭으로 이동 요청
-    func settingCoordinator(_ coordinator: SettingCoordinator, didRequestRoute route: AppRoute)
+    /// Counter 탭으로 이동 요청
+    func settingCoordinatorDidRequestCounterTab(_ coordinator: SettingCoordinator)
 }
 
 public protocol SettingCoordinator: Coordinator {
@@ -26,4 +26,8 @@ public protocol SettingCoordinator: Coordinator {
 
     /// 알림 설정 화면으로 이동
     func showNotification()
+
+    /// Setting Route로 이동
+    @discardableResult
+    func route(to route: SettingRoute, animated: Bool) -> Bool
 }

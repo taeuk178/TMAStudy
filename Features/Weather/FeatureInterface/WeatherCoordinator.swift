@@ -12,4 +12,8 @@ public protocol WeatherCoordinator: Coordinator {
 
     /// Weather 상세 화면으로 이동
     func showWeatherDetail(cityId: String)
+
+    /// Weather Route로 이동
+    @discardableResult
+    func route(to route: WeatherRoute, animated: Bool) -> Bool
 }

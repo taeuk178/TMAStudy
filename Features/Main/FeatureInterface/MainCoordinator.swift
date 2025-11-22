@@ -12,7 +12,7 @@ public protocol MainCoordinator: AnyObject {
     /// Coordinator 시작
     func start()
 
-    /// 특정 Route로 이동
+    /// 특정 Route로 이동 (RouteType 사용 - 런타임에 구체 타입 판별)
     @discardableResult
-    func route(to route: AppRoute, animated: Bool) -> Bool
+    func routeToFeature(route: RouteType, animated: Bool) -> Bool
 }

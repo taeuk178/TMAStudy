@@ -25,18 +25,16 @@ public final class WeatherCoordinatorImpl: WeatherCoordinator {
         showWeatherMain()
     }
 
-    public func route(to route: AppRoute, animated: Bool = true) -> Bool {
+    public func route(to route: WeatherRoute, animated: Bool = true) -> Bool {
         switch route {
-        case .weatherMain:
+        case .main:
             showWeatherMain()
             return true
-        case .weatherDetail(let cityId):
+        case .detail(let cityId):
             // 백스택 쌓기: 메인 -> 상세
             showWeatherMain()
             showWeatherDetail(cityId: cityId)
             return true
-        default:
-            return false
         }
     }
 

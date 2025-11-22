@@ -62,7 +62,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
         switch indexPath.row {
         case 0: // 첫 번째 화면 - Counter로 이동
-            coordinator?.delegate?.settingCoordinator(coordinator!, didRequestRoute: .counterMain)
+            coordinator?.delegate?.settingCoordinatorDidRequestCounterTab(coordinator!)
         case 1: // 두 번째 화면
             coordinator?.showAccount()
         case 2: // 세 번째 화면

@@ -12,10 +12,6 @@ public protocol Coordinator: AnyObject {
 
     /// Coordinator 시작
     func start()
-
-    /// 특정 Route로 이동 (처리 가능하면 true 반환)
-    @discardableResult
-    func route(to route: AppRoute, animated: Bool) -> Bool
 }
 
 public extension Coordinator {

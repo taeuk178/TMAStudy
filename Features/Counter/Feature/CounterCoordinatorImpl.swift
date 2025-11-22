@@ -25,13 +25,11 @@ public final class CounterCoordinatorImpl: CounterCoordinator {
         showCounter()
     }
 
-    public func route(to route: AppRoute, animated: Bool = true) -> Bool {
+    public func route(to route: CounterRoute, animated: Bool = true) -> Bool {
         switch route {
-        case .counterMain:
+        case .main:
             showCounter()
             return true
-        default:
-            return false
         }
     }
 

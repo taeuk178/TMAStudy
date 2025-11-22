@@ -26,28 +26,26 @@ public final class SettingCoordinatorImpl: SettingCoordinator {
         showSettingMain()
     }
 
-    public func route(to route: AppRoute, animated: Bool = true) -> Bool {
+    public func route(to route: SettingRoute, animated: Bool = true) -> Bool {
         switch route {
-        case .settingMain:
+        case .main:
             showSettingMain()
             return true
-        case .settingAccount:
+        case .account:
             // 백스택 쌓기: 메인 -> 계정 설정
             showSettingMain()
             showAccount()
             return true
-        case .settingProfile:
+        case .profile:
             // 백스택 쌓기: 메인 -> 프로필 설정
             showSettingMain()
             showProfile()
             return true
-        case .settingNotification:
+        case .notification:
             // 백스택 쌓기: 메인 -> 알림 설정
             showSettingMain()
             showNotification()
             return true
-        default:
-            return false
         }
     }
 

@@ -35,20 +35,20 @@ public final class MainCoordinatorImpl: MainCoordinator {
         setupTabBar()
     }
 
-    public func route(to route: AppRoute, animated: Bool = true) -> Bool {
-        switch route {
-        case .counterMain:
+    public func routeToFeature(route: RouteType, animated: Bool = true) -> Bool {
+        // RouteType의 구체 타입을 판별하여 적절한 Coordinator에 전달
+        if let counterRoute = route as? CounterRoute {
             switchToTab(index: 0, animated: animated)
-            return counterCoordinator.route(to: route, animated: animated)
-
-        case .weatherMain, .weatherDetail:
+            return counterCoordinator.route(to: counterRoute, animated: animated)
+        } else if let weatherRoute = route as? WeatherRoute {
             switchToTab(index: 1, animated: animated)
-            return weatherCoordinator.route(to: route, animated: animated)
-
-        case .settingMain, .settingAccount, .settingProfile, .settingNotification:
+            return weatherCoordinator.route(to: weatherRoute, animated: animated)
+        } else if let settingRoute = route as? SettingRoute {
             switchToTab(index: 2, animated: animated)
-            return settingCoordinator.route(to: route, animated: animated)
+            return settingCoordinator.route(to: settingRoute, animated: animated)
         }
+
+        return false
     }
 
     private func setupTabBar() {
@@ -90,8 +90,8 @@ public final class MainCoordinatorImpl: MainCoordinator {
 
 // MARK: - SettingCoordinatorDelegate
 extension MainCoordinatorImpl: SettingCoordinatorDelegate {
-    public func settingCoordinator(_ coordinator: SettingCoordinator, didRequestRoute route: AppRoute) {
-        // Setting에서 다른 탭으로 이동 요청 처리
-        self.route(to: route, animated: true)
+    public func settingCoordinatorDidRequestCounterTab(_ coordinator: SettingCoordinator) {
+        // Setting에서 Counter 탭으로 이동 요청 처리
+        self.routeToFeature(route: CounterRoute.main, animated: true)
     }
 }

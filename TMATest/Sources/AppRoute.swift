@@ -1,24 +1,20 @@
 //
 //  AppRoute.swift
-//  TMAShared
+//  TMATest
 //
 
 import Foundation
+import TMAShared
+import CounterInterface
+import WeatherInterface
+import SettingInterface
 
 /// 앱 전체 라우팅 규칙
+/// 각 Feature의 Route를 감싸는 상위 레벨 Route
 public enum AppRoute: Equatable {
-    // Counter 관련
-    case counterMain
-
-    // Weather 관련
-    case weatherMain
-    case weatherDetail(cityId: String)
-
-    // Setting 관련
-    case settingMain
-    case settingAccount
-    case settingProfile
-    case settingNotification
+    case counter(CounterRoute)
+    case weather(WeatherRoute)
+    case setting(SettingRoute)
 }
 
 // MARK: - DeepLink/Push Payload 변환
@@ -33,22 +29,22 @@ public extension AppRoute {
 
         switch first {
         case "counter":
-            return .counterMain
+            return .counter(.main)
         case "weather":
             if pathComponents.count >= 3, pathComponents[1] == "detail" {
-                return .weatherDetail(cityId: pathComponents[2])
+                return .weather(.detail(cityId: pathComponents[2]))
             }
-            return .weatherMain
+            return .weather(.main)
         case "setting":
             if pathComponents.count >= 2 {
                 switch pathComponents[1] {
-                case "account": return .settingAccount
-                case "profile": return .settingProfile
-                case "notification": return .settingNotification
-                default: return .settingMain
+                case "account": return .setting(.account)
+                case "profile": return .setting(.profile)
+                case "notification": return .setting(.notification)
+                default: return .setting(.main)
                 }
             }
-            return .settingMain
+            return .setting(.main)
         default:
             return nil
         }
@@ -60,22 +56,22 @@ public extension AppRoute {
 
         switch screen {
         case "counter_main":
-            return .counterMain
+            return .counter(.main)
         case "weather_main":
-            return .weatherMain
+            return .weather(.main)
         case "weather_detail":
             if let cityId = pushPayload["cityId"] as? String {
-                return .weatherDetail(cityId: cityId)
+                return .weather(.detail(cityId: cityId))
             }
-            return .weatherMain
+            return .weather(.main)
         case "setting_main":
-            return .settingMain
+            return .setting(.main)
         case "setting_account":
-            return .settingAccount
+            return .setting(.account)
         case "setting_profile":
-            return .settingProfile
+            return .setting(.profile)
         case "setting_notification":
-            return .settingNotification
+            return .setting(.notification)
         default:
             return nil
         }

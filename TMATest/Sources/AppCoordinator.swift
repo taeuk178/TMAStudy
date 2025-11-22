@@ -81,7 +81,17 @@ final class AppCoordinator {
             return false
         }
 
-        let success = mainCoordinator.route(to: route, animated: animated)
+        // AppRoute를 Feature Route로 변환하여 전달
+        let success: Bool
+        switch route {
+        case .counter(let counterRoute):
+            success = mainCoordinator.routeToFeature(route: counterRoute, animated: animated)
+        case .weather(let weatherRoute):
+            success = mainCoordinator.routeToFeature(route: weatherRoute, animated: animated)
+        case .setting(let settingRoute):
+            success = mainCoordinator.routeToFeature(route: settingRoute, animated: animated)
+        }
+
         if success {
             print("✅ Successfully routed to: \(route)")
         } else {
