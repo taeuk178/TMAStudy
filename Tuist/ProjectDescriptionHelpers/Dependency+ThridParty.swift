@@ -15,6 +15,7 @@ public enum ThirdParty: String {
     case RxCocoa
     case ReactorKit
     case Moya
+    case DGCharts
 }
 
 public enum LibraryModule: String {

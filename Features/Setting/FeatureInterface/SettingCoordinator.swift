@@ -22,7 +22,7 @@ public protocol SettingCoordinator: Coordinator {
     func showAccount()
 
     /// 프로필 설정 화면으로 이동
-    func showProfile()
+    func showCheckedView()
 
     /// 알림 설정 화면으로 이동
     func showNotification()

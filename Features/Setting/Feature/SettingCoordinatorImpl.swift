@@ -39,7 +39,7 @@ public final class SettingCoordinatorImpl: SettingCoordinator {
         case .profile:
             // 백스택 쌓기: 메인 -> 프로필 설정
             showSettingMain()
-            showProfile()
+            showCheckedView()
             return true
         case .notification:
             // 백스택 쌓기: 메인 -> 알림 설정
@@ -68,12 +68,12 @@ public final class SettingCoordinatorImpl: SettingCoordinator {
         navigationController.pushViewController(accountVC, animated: true)
     }
 
-    public func showProfile() {
-        // TODO: ProfileViewController 구현 후 추가
-        let profileVC = UIViewController()
-        profileVC.view.backgroundColor = .systemBackground
-        profileVC.title = "프로필 설정"
-        navigationController.pushViewController(profileVC, animated: true)
+    public func showCheckedView() {
+        let checkedDataReactor = CheckedDataReactor()
+        let checkedDataViewController = CheckedDataViewController()
+        checkedDataViewController.reactor = checkedDataReactor
+        checkedDataViewController.title = "데이터 확인용"
+        navigationController.pushViewController(checkedDataViewController, animated: true)
     }
 
     public func showNotification() {

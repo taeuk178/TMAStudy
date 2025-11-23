@@ -33,6 +33,7 @@ let project = Project(
             sources: ["Feature/**"],
             dependencies: .defaultLibraries + [
                 .library(.TMAShared),
+                .thirdParty(.DGCharts),
                 .target(name: "SettingInterface")
             ]
         )

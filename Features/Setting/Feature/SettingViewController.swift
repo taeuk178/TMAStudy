@@ -66,7 +66,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         case 1: // 두 번째 화면
             coordinator?.showAccount()
         case 2: // 세 번째 화면
-            coordinator?.showProfile()
+            coordinator?.showCheckedView()
         default:
             break
         }

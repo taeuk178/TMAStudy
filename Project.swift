@@ -22,7 +22,8 @@ let project = Project(
                                 ]
                             ]
                         ]
-                    ]
+                    ],
+                    "NSLocationWhenInUseUsageDescription": "위치 데이터를 수집하여 고도 정보를 표시합니다."
                 ]
             ),
             sources: ["TMATest/Sources/**"],
